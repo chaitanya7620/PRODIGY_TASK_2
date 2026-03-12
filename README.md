@@ -13,7 +13,10 @@ HTML5
 CSS3
 JavaScript
 # 📂 Project Structure
-├── index.html ├── style.css └── script.js
+├── index2.html 
+├── style2.css 
+└── script2.js
+└── README.md
 
 # 🎯 Learning Outcomes
 JavaScript timing functions
