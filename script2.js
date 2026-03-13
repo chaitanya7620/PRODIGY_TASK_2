@@ -1,64 +1,71 @@
+let timer;
 let milliseconds = 0;
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
-let timer = null;
-let lapCount = 0;
 
-function start() {
-    if (timer !== null) return;
-    timer = setInterval(updateTime, 10);
+function updateDisplay(){
+
+let h = String(hours).padStart(2,'0');
+let m = String(minutes).padStart(2,'0');
+let s = String(seconds).padStart(2,'0');
+let ms = String(milliseconds).padStart(3,'0');
+
+document.getElementById("display").innerText = h+":"+m+":"+s+":"+ms;
 }
 
-function stop() {
-    clearInterval(timer);
-    timer = null;
+function startTimer(){
+
+timer = setInterval(()=>{
+
+milliseconds += 10;
+
+if(milliseconds == 1000){
+milliseconds = 0;
+seconds++;
 }
 
-function reset() {
-    stop();
-    milliseconds = seconds = minutes = hours = 0;
-    lapCount = 0;
-    document.getElementById("display").innerText = "00:00:00:000";
-    document.getElementById("laps").innerHTML = "";
+if(seconds == 60){
+seconds = 0;
+minutes++;
 }
 
-function lap() {
-    if (milliseconds === 0 && seconds === 0 && minutes === 0 && hours === 0) return;
-
-    lapCount++;
-    const lapTime = document.getElementById("display").innerText;
-    const li = document.createElement("li");
-    li.innerText = `Lap ${lapCount} — ${lapTime}`;
-    document.getElementById("laps").appendChild(li);
+if(minutes == 60){
+minutes = 0;
+hours++;
 }
 
-function updateTime() {
-    milliseconds += 10;
+updateDisplay();
 
-    if (milliseconds === 1000) {
-        milliseconds = 0;
-        seconds++;
-    }
+},10);
 
-    if (seconds === 60) {
-        seconds = 0;
-        minutes++;
-    }
+}
 
-    if (minutes === 60) {
-        minutes = 0;
-        hours++;
-    }
+function stopTimer(){
+clearInterval(timer);
+}
 
-    let h = hours < 10 ? "0" + hours : hours;
-    let m = minutes < 10 ? "0" + minutes : minutes;
-    let s = seconds < 10 ? "0" + seconds : seconds;
-    let ms =
-        milliseconds < 10 ? "00" + milliseconds :
-        milliseconds < 100 ? "0" + milliseconds :
-        milliseconds;
+function resetTimer(){
 
-    document.getElementById("display").innerText =
-        `${h}:${m}:${s}:${ms}`;
+clearInterval(timer);
+
+milliseconds = 0;
+seconds = 0;
+minutes = 0;
+hours = 0;
+
+updateDisplay();
+
+document.getElementById("laps").innerHTML="";
+}
+
+function lapTimer(){
+
+let lapTime = document.getElementById("display").innerText;
+
+let li = document.createElement("li");
+li.innerText = "Lap - " + lapTime;
+
+document.getElementById("laps").appendChild(li);
+
 }
